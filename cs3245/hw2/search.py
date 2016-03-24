@@ -176,10 +176,8 @@ class SkipList(object):
                 result.append(skiplist2_current)
                 skiplist2.next()
             self_current, skiplist2_current = self.current(), skiplist2.current()
-        for i in xrange(self._pointer, self.list_size):
-            result.append(self.array[i])
-        for j in xrange(skiplist2._pointer, skiplist2.list_size):
-            result.append(skiplist2.array[j])
+        map(result.append, self.array[self._pointer:])
+        map(result.append, self.skiplist2[skiplist2._pointer:])
         """
         return SkipList(self.index, result)
 
@@ -213,8 +211,12 @@ class Index(object):
         returns a SkipList object containing a list of postings for the provided term.
         postings is retrieved from file on demand.
         """
-        postings_str = self._read_postings_file(self.index["terms"][term]["posting"])
-        return SkipList(self, map(int, postings_str.split()))
+        try:
+            postings_str = self._read_postings_file(self.index["terms"][term]["posting"])
+        except KeyError as error:
+            return SkipList(self, [])
+        else:
+            return SkipList(self, map(int, postings_str.split()))
 
     def _load_index(self, index_filename):
         """
