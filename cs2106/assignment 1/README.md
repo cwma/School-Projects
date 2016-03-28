@@ -1,0 +1,1 @@
+Simulates an OS Process and Resource Manager 
