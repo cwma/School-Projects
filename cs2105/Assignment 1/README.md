@@ -1,0 +1,2 @@
+Assignment was to write a webserver that could support some very basic http 1.0 functions to handle post and get requests to a CGI script.
+My submission includes that functionality plus Multithreaded httprequest handling and a static file server.
