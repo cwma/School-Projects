@@ -8,7 +8,7 @@ static char *who = "world";
 
 static int hello_init(void)
 {
-	printk(KERN_ALERT "Hello, %s\n");
+	printk(KERN_ALERT "Hello, %s\n", who);
 	return 0;
 }
 
