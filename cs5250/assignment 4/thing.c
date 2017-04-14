@@ -11,11 +11,11 @@
 #define MAJOR_NUMBER 61
 
 /* forward declaration */
-int open(struct inode *inode, struct file *filep);
-int release(struct inode *inode, struct file *filep);
+int four_mb_open(struct inode *inode, struct file *filep);
+int four_mb_release(struct inode *inode, struct file *filep);
 ssize_t four_mb_read(struct file *filep, char *buf, size_t count, loff_t *f_pos);
 ssize_t four_mb_write(struct file *filep, const char *buf, size_t count, loff_t *f_pos);
-static void exit(void);
+static void four_mb_exit(void);
 
 /* definition of file_operation structure */
 struct file_operations onebyte_fops = {
@@ -74,7 +74,7 @@ static int four_mb_init(void)
 	// To release the memory allocated by kmalloc, use kfree.
 	onebyte_data = kmalloc(sizeof(char), GFP_KERNEL);
 	if (!onebyte_data) {
-		onebyte_exit();
+		four_mb_exit();
 		// cannot allocate memory
 		// return no memory error, negative signify a failure
 		return -ENOMEM;
