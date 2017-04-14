@@ -93,7 +93,7 @@ static int four_mb_init(void)
 	printk(KERN_ALERT "This is a 4mb byte device module\n");
 	return 0;
 }
-
+ 
 loff_t four_mb_seek(struct file *filep, loff_t f_pos, int seek_t) 
 {
     loff_t n_pos = 0;
