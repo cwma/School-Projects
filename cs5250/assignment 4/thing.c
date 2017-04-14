@@ -13,31 +13,31 @@
 /* forward declaration */
 int open(struct inode *inode, struct file *filep);
 int release(struct inode *inode, struct file *filep);
-ssize_t read(struct file *filep, char *buf, size_t count, loff_t *f_pos);
-ssize_t write(struct file *filep, const char *buf, size_t count, loff_t *f_pos);
+ssize_t four_mb_read(struct file *filep, char *buf, size_t count, loff_t *f_pos);
+ssize_t four_mb_write(struct file *filep, const char *buf, size_t count, loff_t *f_pos);
 static void exit(void);
 
 /* definition of file_operation structure */
 struct file_operations onebyte_fops = {
-	read: read,
-	write: write,
-	open: open,
-	release: release
+	read: four_mb_read,
+	write: four_mb_write,
+	open: four_mb_open,
+	release: four_mb_release
 };
 
 char *onebyte_data = NULL;
 
-int open(struct inode *inode, struct file *filep)
+int four_mb_open(struct inode *inode, struct file *filep)
 {
 	return 0; // always successful
 }
 
-int release(struct inode *inode, struct file *filep)
+int four_mb_release(struct inode *inode, struct file *filep)
 {
 	return 0; // always successful
 }
 
-ssize_t read(struct file *filep, char *buf, size_t count, loff_t *f_pos)
+ssize_t four_mb_read(struct file *filep, char *buf, size_t count, loff_t *f_pos)
 {
 	if(*f_pos > 0) {
 		return 0;
@@ -48,7 +48,7 @@ ssize_t read(struct file *filep, char *buf, size_t count, loff_t *f_pos)
 	}
 }
 
-ssize_t write(struct file *filep, const char *buf, size_t count, loff_t *f_pos)
+ssize_t four_mb_write(struct file *filep, const char *buf, size_t count, loff_t *f_pos)
 {
 	if(*f_pos > 0) {
 		return -ENOSPC;
@@ -59,7 +59,7 @@ ssize_t write(struct file *filep, const char *buf, size_t count, loff_t *f_pos)
 	}
 }
 
-static int init(void)
+static int four_mb_init(void)
 {
 	int result;
 	// register the device
@@ -85,7 +85,7 @@ static int init(void)
 	return 0;
 }
 
-static void exit(void)
+static void four_mb_exit(void)
 {
 	// if the pointer is pointing to something
 	if (onebyte_data) {
@@ -99,5 +99,5 @@ static void exit(void)
 }
 
 MODULE_LICENSE("GPL");
-module_init(init);
-module_exit(exit);
+module_init(four_mb_init);
+module_exit(four_mb_exit);
